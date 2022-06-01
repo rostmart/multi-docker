@@ -1,0 +1,18 @@
+language: generic 
+sudo: required
+services: 
+  - docker 
+before_install:
+  - docker build -t rostmart/react-test -f ./client/Dockerfile.dev ./client
+script:
+  - docker run -e CI=true rostmart/react-test npm test 
+after_success:                                                                               
+  - docker build -t rostmart/multi-client ./client                                         
+  - docker build -t rostmart/multi-nginx ./nginx
+  - docker build -t rostmart/multi-server ./server
+  - docker build -t rostmart/multi-worker ./worker
+  - echo "$DOCKER_PASSWORD" | docker loin -u "$DOCKER_ID" --password-stdin                   
+  - docker push rostmart/multi-client                                                        
+  - docker push rostmart/multi-nginx
+  - docker push rostmart/multi-server
+  - docker push rostmart/multi-worker
