@@ -3,16 +3,16 @@ sudo: required
 services: 
   - docker 
 before_install:
-  - docker build -t rostmart/react-test -f ./client/Dockerfile.dev ./client
+  - docker build -t rostekmart/react-test -f ./client/Dockerfile.dev ./client
 script:
-  - docker run -e CI=true rostmart/react-test npm test 
+  - docker run -e CI=true rostekmart/react-test npm test 
 after_success:                                                                               
-  - docker build -t rostmart/multi-client ./client                                         
-  - docker build -t rostmart/multi-nginx ./nginx
-  - docker build -t rostmart/multi-server ./server
-  - docker build -t rostmart/multi-worker ./worker
+  - docker build -t rostekmart/multi-client ./client                                         
+  - docker build -t rostekmart/multi-nginx ./nginx
+  - docker build -t rostekmart/multi-server ./server
+  - docker build -t rostekmart/multi-worker ./worker
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin                   
-  - docker push rostmart/multi-client                                                        
-  - docker push rostmart/multi-nginx
-  - docker push rostmart/multi-server
-  - docker push rostmart/multi-worker
+  - docker push rostekmart/multi-client                                                        
+  - docker push rostekmart/multi-nginx
+  - docker push rostekmart/multi-server
+  - docker push rostekmart/multi-worker
